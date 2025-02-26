@@ -1,7 +1,9 @@
 import { View, Text, Image, Dimensions , ScrollView } from 'react-native';
 import React from 'react';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 const Home = () => {
+  const backgroundColor = useThemeColor({ light: "white", dark: "#1E1E1E" });
 
   const rank = [
     { "name": "Aaliyah", "rank": 1, "points": 400 },
@@ -73,7 +75,7 @@ const Home = () => {
 
           {rank.map((item)=>{
             return(
-            <View key={item.rank} style={{width:"93%"}} className='bg-white  h-16 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-3 ' >
+            <View key={item.rank} style={[{width:"93%"},{backgroundColor}]} className=' h-16 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-3 ' >
                 <Text className='text-2xl color-primre font-bold ' >{item.rank}.</Text>
                 <Text className='text-2xl color-primre font-bold flex-1 ml-6' >{item.name}</Text>
                 <Text className='text-2xl color-primre font-bold ' >{item.points}</Text>

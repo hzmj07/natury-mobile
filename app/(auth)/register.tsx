@@ -4,6 +4,19 @@ import { useAuth } from "../../context/Authcontext";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
+
+
+
+const AddModal = ()=>{
+  return(
+    <View className=" absolute flex-1" >
+
+    </View>
+  )
+}
+
+
 export default function LoginScreen() {
   const { login } = useAuth();
   const router = useRouter();
@@ -65,6 +78,7 @@ export default function LoginScreen() {
         {/* Kayıt Ol Linki */}
         
       </View>
+      <AddModal/>
     </View>
   );
 }
