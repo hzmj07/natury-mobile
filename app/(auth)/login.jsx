@@ -1,16 +1,20 @@
 import { Link } from "expo-router";
 import { View, Text, TextInput, Button, Image , TouchableOpacity } from "react-native";
-import { useAuth } from "../../context/Authcontext";
+import { useAuth } from "../../context/Authcontext"; // AuthContext'i içe aktar
+
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import CustomTextInput from "../../components/costumInput";
+import { UserLogin } from "../../api/auth";
 export default function LoginScreen() {
-  const { login } = useAuth();
+
+  const [email, setemail] = useState();
+  const [password, setpassword] = useState();
+  const { loginContext } = useAuth(); // Auth verilerine eriş
   const router = useRouter();
 
   // TextInput odak durumlarını takip etmek için state'ler
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
   return (
     <View className="flex-1 items-center justify-start">
@@ -27,29 +31,13 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center w-full items-center">
         <View className="w-4/6">
           {/* Email Input */}
-          <TextInput
-            className={`bg-white pl-5 text-2xl rounded-2xl border ${
-              isEmailFocused ? "border-primre" : "border-gray-300"
-            }`}
-            placeholder="Email"
-            onFocus={() => setIsEmailFocused(true)}
-            onBlur={() => setIsEmailFocused(false)}
-          />
+         <CustomTextInput onChange={setemail} value={email} placeholder={"Email"} />
+         <CustomTextInput onChange={setpassword} value={password} placeholder={"Password"} />
 
-          {/* Şifre Input */}
-          <TextInput
-            className={`bg-white pl-5 text-2xl rounded-2xl border mt-4 ${
-              isPasswordFocused ? "border-primre" : "border-gray-300"
-            }`}
-            placeholder="Şifre"
-            secureTextEntry
-            onFocus={() => setIsPasswordFocused(true)}
-            onBlur={() => setIsPasswordFocused(false)}
-          />
         </View>
 
         {/* Giriş Yap Butonu */}
-        <TouchableOpacity onPress={()=>login()} className="bg-primre p-4 mt-6  rounded-xl flex-row" >
+        <TouchableOpacity onPress={()=>UserLogin(email , password , loginContext)} className="bg-primre p-4 mt-6  rounded-xl flex-row" >
         <Text className="color-white text-xl font-bold mr-3" >Giriş Yap</Text>
         <MaterialIcons name="login" size={24} color="white" />
       </TouchableOpacity>

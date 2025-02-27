@@ -2,10 +2,14 @@ import { View, Text, Image, Dimensions , ScrollView } from 'react-native';
 import React from 'react';
 import { LineChart } from 'react-native-chart-kit';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { useAuth } from "../../context/Authcontext"; // AuthContext'i içe aktar
 
 const Home = () => {
   const backgroundColor = useThemeColor({ light: "white", dark: "#1E1E1E" });
-
+  const { user } = useAuth();
+  console.log(user);
+   // Auth verilerine eriş
+ 
   return (
     <View className="flex-1 ">
       {/* Header */}
@@ -54,7 +58,7 @@ const Home = () => {
             <ScrollView contentContainerStyle={{alignItems:"center" , justifyContent:"center"}} className='h-full w-full   pt-11 '  >
               <View  style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
                 <Text className='text-2xl color-primre font-bold flex-1' >Ekilen Ağaç Sayısı</Text>
-                <Text className='text-2xl color-primre font-bold ' >12</Text>
+                <Text className='text-2xl color-primre font-bold ' >{user.userData.trees}</Text>
               </View>
               <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
                 <Text className='text-2xl color-primre font-bold flex-1' >Geri Kazanılan Oksijen</Text>
@@ -62,7 +66,7 @@ const Home = () => {
               </View>
               <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
                 <Text className='text-2xl color-primre font-bold flex-1' >Globel Puan</Text>
-                <Text className='text-2xl color-primre font-bold ' >12</Text>
+                <Text className='text-2xl color-primre font-bold ' >{user.userData.totalPoints}</Text>
               </View>
               <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
                 <Text className='text-2xl color-primre font-bold flex-1' >Globel Sıralaman</Text>

@@ -3,19 +3,7 @@ import { View, Text, TextInput, Button, Image , TouchableOpacity } from "react-n
 import { useAuth } from "../../context/Authcontext";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
-
-
-
-const AddModal = ()=>{
-  return(
-    <View className=" absolute flex-1" >
-
-    </View>
-  )
-}
-
+import CustomTextInput from "../../components/costumInput";
 
 export default function LoginScreen() {
   const { login } = useAuth();
@@ -41,33 +29,9 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center w-full items-center">
         <View className="w-4/6">
           {/* Email Input */}
-          <TextInput
-            className={`bg-white pl-5 text-2xl rounded-2xl border ${
-              isEmailFocused ? "border-primre" : "border-gray-300"
-            }`}
-            placeholder="Email"
-            onFocus={() => setIsEmailFocused(true)}
-            onBlur={() => setIsEmailFocused(false)}
-          />
-
-            <TextInput
-            className={`bg-white pl-5 text-2xl rounded-2xl border mt-4 ${
-              isNameFocus ? "border-primre" : "border-gray-300"
-            }`}
-            placeholder="Name"
-            onFocus={() => setisNameFocus(true)}
-            onBlur={() => setisNameFocus(false)}
-          />
-          {/* Şifre Input */}
-          <TextInput
-            className={`bg-white pl-5 text-2xl rounded-2xl border mt-4 ${
-              isPasswordFocused ? "border-primre" : "border-gray-300"
-            }`}
-            placeholder="Şifre"
-            secureTextEntry
-            onFocus={() => setIsPasswordFocused(true)}
-            onBlur={() => setIsPasswordFocused(false)}
-          />
+          <CustomTextInput placeholder={"Email"} />
+          <CustomTextInput placeholder={"Name"} />
+          <CustomTextInput placeholder={"Password"} />
         </View>
 
         {/* Giriş Yap Butonu */}
@@ -78,7 +42,6 @@ export default function LoginScreen() {
         {/* Kayıt Ol Linki */}
         
       </View>
-      <AddModal/>
     </View>
   );
 }
