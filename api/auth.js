@@ -26,3 +26,30 @@ export const UserLogin  = async (email , password , loginContext)=>{
       }
     
 }
+
+
+
+export const userRegistar  = async (email , password , name)=>{
+  console.log(email);
+  console.log(password);
+  console.log(name);
+  
+  
+  try {
+      const response = await axios.post(`http://${ipAdrees}:5055/auth/register`, {
+       "username" : name , 
+        "email" : email,
+        "password" : password
+      });
+      console.log(response.data);
+      
+
+      
+      
+      // Gelen veriyi state'e at
+    } catch (error) {
+      console.log(error);
+      
+    }
+  
+}

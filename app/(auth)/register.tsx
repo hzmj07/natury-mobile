@@ -4,15 +4,16 @@ import { useAuth } from "../../context/Authcontext";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import CustomTextInput from "../../components/costumInput";
+import {userRegistar} from "../../api/auth"
 
 export default function LoginScreen() {
   const { login } = useAuth();
   const router = useRouter();
 
   // TextInput odak durumlarını takip etmek için state'ler
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isNameFocus, setisNameFocus] = useState(false)
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [Email, setIsEmail] = useState(false);
+  const [Name, setisName] = useState(false)
+  const [Password, setIsPassword] = useState(false);
 
   return (
     <View className="flex-1 items-center justify-start">
@@ -29,13 +30,13 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center w-full items-center">
         <View className="w-4/6">
           {/* Email Input */}
-          <CustomTextInput placeholder={"Email"} />
-          <CustomTextInput placeholder={"Name"} />
-          <CustomTextInput placeholder={"Password"} />
+          <CustomTextInput onChange={setIsEmail} placeholder={"Email"} type={"email"} />
+          <CustomTextInput onChange={setisName} placeholder={"Name"} />
+          <CustomTextInput onChange={setIsPassword} placeholder={"Password"} />
         </View>
 
         {/* Giriş Yap Butonu */}
-        <TouchableOpacity onPress={()=>login()} className="bg-primre p-4 mt-6  rounded-2xl flex-row" >
+        <TouchableOpacity onPress={()=>userRegistar(Email , Password , Name)} className="bg-primre p-4 mt-6  rounded-2xl flex-row" >
         <Text className="color-white text-xl font-bold " >Hesap Oluştur</Text>
       </TouchableOpacity>
 

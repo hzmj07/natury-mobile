@@ -13,12 +13,49 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import CustomTextInput from "../../components/costumInput";
+import { addPoint , getUserData } from "../../api/processes";
+import { useAuth } from "../../context/Authcontext"; // AuthContext'i içe aktar
+
+
+const scoreCalculation = (item , gram) =>{
+  if(item == "Plastik"){return( gram*3)/10}
+  if (item == "Cam" ) {
+    return (gram*5)/10
+  } if (item == "Kağıt" ) {
+    return( gram*8) /10
+  }
+}
+
+
 
 const Home = () => {
   const backgroundColor = useThemeColor({ light: "white", dark: "#1E1E1E" });
   const [addModal, setAddModal] = useState(false);
   const [typeModal, setTypeModal] = useState(false);
   const [selectedType, setSelectedType] = useState("Cam");
+   const [gram, setgram] = useState(); 
+   const { token  , refreshUserData} = useAuth();
+
+  
+  const add = async ()=>{
+      const point = scoreCalculation(selectedType ,gram);
+      if (!gram) {
+        console.log("gram giriniz!");
+        return;
+        
+      }
+      try {
+
+        const response = await addPoint(token.accessToken , point);
+        await getUserData(token.accessToken , refreshUserData);
+        console.log( `responese` , response.data);
+        setAddModal(false)
+        
+      } catch (error) {
+        console.error(error);
+        
+      }
+    }
 
   return (
     <View className="flex-1 items-center justify-start">
@@ -72,14 +109,14 @@ const Home = () => {
             </TouchableOpacity>
 
             <Text className="color-primre text-3xl font-bold mt-6 mb-3">Ortalama ağırlık (g)</Text>
-            <CustomTextInput type="numeric" placeholder="Ağırlık Girin" />
+            <CustomTextInput onChange={setgram} type="numeric" placeholder="Ağırlık Girin" />
 
             {/* Buttons */}
             <View className="flex-row justify-center mt-6">
               <TouchableOpacity onPress={() => setAddModal(false)} className="w-24 h-12 border border-primre rounded-xl items-center justify-center">
                 <MaterialIcons name="cancel" size={24} color="red" />
               </TouchableOpacity>
-              <TouchableOpacity className="w-24 ml-4 h-12 border border-primre rounded-xl items-center justify-center">
+              <TouchableOpacity onPress={()=>{add()}} className="w-24 ml-4 h-12 border border-primre rounded-xl items-center justify-center">
                 <AntDesign name="checkcircle" size={24} color="#00A627" />
               </TouchableOpacity>
             </View>

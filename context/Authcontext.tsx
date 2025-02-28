@@ -14,6 +14,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [userData , setUserData] = useState (null); 
   const [token, setToken] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const intervalRef = useRef(null);
@@ -38,6 +39,7 @@ export function AuthProvider({ children }) {
 
  
   const getUserData = async () => {
+    const storedUserData = await SecureStore.getItemAsync("userData");
     const storedUser = await SecureStore.getItemAsync("user");
     const storedToken = await SecureStore.getItemAsync("token");
 
@@ -46,8 +48,15 @@ export function AuthProvider({ children }) {
       setToken(JSON.parse(storedToken));
     //  checkTokenValidity(JSON.parse(storedToken), 3600);
     }
+
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
     
-    setLoading(false);
+  
+      setLoading(false);
+
+   
   };
 
   useEffect(() => {
@@ -59,11 +68,21 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const loginContext = async (userData, tokenData) => {
+
+  const refreshUserData = async (data) =>{
+    await SecureStore.setItemAsync("userdata", JSON.stringify(data));
+    setUserData(data);
+
+  }
+  
+  const loginContext = async (data, tokenData) => {
+    console.log( "incontextttttt" , data.userData);
     
-    await SecureStore.setItemAsync("user", JSON.stringify(userData));
+    await SecureStore.setItemAsync("user", JSON.stringify(data));
+    await SecureStore.setItemAsync("userdata", JSON.stringify(data.userData));
     await SecureStore.setItemAsync("token", JSON.stringify(tokenData));
-    setUser(userData);
+    setUser(data);
+    setUserData(data.userData);
     setToken(tokenData);
    // checkTokenValidity(tokenData, 3600);
   };
@@ -81,7 +100,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isLoading, loginContext, logout }}
+      value={{ user, token, isLoading, loginContext, logout , refreshUserData , userData }}
     >
       {children}
     </AuthContext.Provider>
