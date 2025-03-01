@@ -48,7 +48,8 @@ export function AuthProvider({ children }) {
       setToken(JSON.parse(storedToken));
     //  checkTokenValidity(JSON.parse(storedToken), 3600);
     }
-
+    console.log("storedUserData" , storedUserData);
+    
     if (storedUserData) {
       setUserData(JSON.parse(storedUserData));
     }
@@ -76,10 +77,10 @@ export function AuthProvider({ children }) {
   }
   
   const loginContext = async (data, tokenData) => {
-    console.log( "incontextttttt" , data.userData);
+    console.log( "userData after login" , data.userData);
     
     await SecureStore.setItemAsync("user", JSON.stringify(data));
-    await SecureStore.setItemAsync("userdata", JSON.stringify(data.userData));
+    await SecureStore.setItemAsync("userData", JSON.stringify(data.userData));
     await SecureStore.setItemAsync("token", JSON.stringify(tokenData));
     setUser(data);
     setUserData(data.userData);

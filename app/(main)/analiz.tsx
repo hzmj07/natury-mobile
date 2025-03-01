@@ -7,7 +7,7 @@ import { useAuth } from "../../context/Authcontext"; // AuthContext'i içe aktar
 const Home = () => {
   const backgroundColor = useThemeColor({ light: "white", dark: "#1E1E1E" });
   const { userData } = useAuth();
-  console.log(userData);
+  console.log( "analiz page" , userData);
   
    // Auth verilerine eriş
  

@@ -9,7 +9,8 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider, useAuth } from '../context/Authcontext';  
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { View, ActivityIndicator} from "react-native";
-import AuthNavi from "../components/userNavigator"
+import {AuthGate } from "../components/userNavigator"
+import FlashMessage from "react-native-flash-message";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,9 +32,11 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthProvider>
+      <FlashMessage position="top" />
+
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-       
-        <AuthNavi />
+        <Slot/>
+        <AuthGate />
       </AuthProvider>
     </ThemeProvider>
     </QueryClientProvider>
