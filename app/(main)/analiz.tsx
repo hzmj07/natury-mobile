@@ -62,17 +62,14 @@ const Home = () => {
                 <Text className='text-2xl color-primre font-bold ' >{userData.trees}</Text>
               </View>
               <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
-                <Text className='text-2xl color-primre font-bold flex-1' >Geri Kazanılan Oksijen</Text>
-                <Text className='text-2xl color-primre font-bold ' >12</Text>
+                <Text className='text-2xl color-primre font-bold flex-1' >Geri Kazanılan Enerji (kwH)</Text>
+                <Text className='text-2xl color-primre font-bold ' >{userData.recoveredEnergy}</Text>
               </View>
               <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
                 <Text className='text-2xl color-primre font-bold flex-1' >Globel Puan</Text>
                 <Text className='text-2xl color-primre font-bold ' >{userData.totalPoints}</Text>
               </View>
-              <View style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >
-                <Text className='text-2xl color-primre font-bold flex-1' >Globel Sıralaman</Text>
-                <Text className='text-2xl color-primre font-bold ' >12</Text>
-              </View>
+             
               
 
               
