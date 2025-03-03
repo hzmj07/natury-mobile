@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import * as SecureStore from "expo-secure-store";
-// import { refreshAuthToken } from "../api/auth";
+import { refrashToken } from "../api/auth";
 
 const AuthContext = createContext(null);
 
@@ -19,25 +19,46 @@ export function AuthProvider({ children }) {
   const [isLoading, setLoading] = useState(true);
   const intervalRef = useRef(null);
 
-  // const checkTokenValidity = (tokens, expiryTime) => {
-  //   const check = () => {
-  //     const currentTime = new Date().getTime();
-  //     const tokenTime = new Date(tokens.accessTime).getTime();
-  //     const expiration = tokenTime + expiryTime * 1000;
-
-  //     if (expiration - currentTime > 120000) {
-  //       console.log("Token is valid");
-  //     } else {
-  //       console.log("Token expired, refreshing...");
-  //       refreshAuthToken(tokens.refreshToken, setToken);
-  //     }
-  //   };
-
-  //   check();
-  //   intervalRef.current = setInterval(check, 60000);
-  // };
-
- 
+  const checkTokenValidity = (tokens, expiryTime) => {
+    console.log(tokens);
+    
+    if (!tokens?.acsessTime) {
+      console.error("❌ Geçersiz token: accessTime eksik!");
+      return;
+    }
+  
+    const check = () => {
+      const currentTime = Date.now();
+      const tokenTime = new Date(tokens.acsessTime).getTime();
+      const expiration = tokenTime + expiryTime * 1000;
+      const timeLeft = expiration - currentTime;
+  
+      console.log(" Şu Anki Zaman:", new Date(currentTime).toISOString());
+      console.log(" Token Başlangıcı:", new Date(tokenTime).toISOString());
+      console.log(" Token Geçerlilik Süresi:", new Date(expiration).toISOString());
+      console.log(" Kalan Süre (ms):", timeLeft);
+      console.log(" Kalan Süre (dakika):", timeLeft / 60000);
+  
+      if (timeLeft > 120000) {
+        console.log(" Token hala geçerli.");
+      } else {
+        console.log(" Token süresi doldu, yenileniyor...");
+        refrashToken(tokens.refreshToken, setToken);
+      }
+    };
+  
+    // İlk kontrolü yap
+    check();
+  
+    // Önceki interval varsa temizle
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  
+    // Yeni interval başlat
+    intervalRef.current = setInterval(check, 60000);
+  };
+  
   const getUserData = async () => {
     const storedUserData = await SecureStore.getItemAsync("userData");
     const storedUser = await SecureStore.getItemAsync("user");
@@ -46,7 +67,7 @@ export function AuthProvider({ children }) {
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(JSON.parse(storedToken));
-    //  checkTokenValidity(JSON.parse(storedToken), 3600);
+      checkTokenValidity(JSON.parse(storedToken), 3600);
     }
     console.log("storedUserData" , storedUserData);
     
@@ -62,11 +83,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     getUserData();
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
   }, []);
 
 
@@ -101,7 +117,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isLoading, loginContext, logout , refreshUserData , userData }}
+      value={{ user, token, isLoading, loginContext, logout , refreshUserData , userData , setToken }}
     >
       {children}
     </AuthContext.Provider>

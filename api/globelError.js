@@ -1,3 +1,5 @@
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 export const globelError = (e) => {
     const errorCode = e.response?.status || null;
   
@@ -13,7 +15,14 @@ export const globelError = (e) => {
     const errorMessage =
       errorMessages[errorCode] || "Please check your internet connection.";
       console.log( "error mesaje" ,  errorMessage);
+
       
+    showMessage({
+      message: `${errorMessage}`,
+      type: "danger",
+      hideStatusBar : true,
+      icon:"auto"
+    });
     return errorMessage;
   };
   

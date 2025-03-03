@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {globelError} from "./globelError"
 const ipAdrees = "192.168.1.118";
 
 
@@ -56,7 +56,7 @@ try {
 
   // Gelen veriyi state'e at
 } catch (error) {
-  console.error(error);
+  globelError(error)
 
 }
 
@@ -82,7 +82,7 @@ export const getUserData = async (token , saveContext) => {
   
       // Gelen veriyi state'e at
     } catch (error) {
-      console.log(error);
+    globelError(error);
   
     }
   

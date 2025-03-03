@@ -16,7 +16,7 @@ export const UserLogin = async (email, password, loginContext) => {
     });
     const userName = response.data.user.username
     console.log(response.data.user.username);
-    console.log(response.data.TokenS);
+    console.log( "tokeeennnnsss" , response.data.TokenS);
     loginContext(response.data.user, response.data.TokenS)
 
     showMessage({
@@ -28,14 +28,8 @@ export const UserLogin = async (email, password, loginContext) => {
 
     // Gelen veriyi state'e at
   } catch (e) {
-    const error = globelError(e);
+   globelError(e);
 
-    showMessage({
-      message: `${error}`,
-      type: "danger",
-      hideStatusBar : true,
-      icon:"auto"
-    });
 
   }
 
@@ -66,14 +60,26 @@ export const userRegistar = async (email, password, name) => {
 
 
   } catch (e) {
-    const error = globelError(e);
+    globelError(e);
 
-    showMessage({
-      message: `${error}`,
-      type: "danger",
-      hideStatusBar : true,
-      icon:"auto"
-    });
+   
   }
 
 }
+
+
+export const refrashToken = async (refrashToken , setToken) => {
+  console.log(`refreshhtokenn` , refrashToken);
+  
+  try {
+    const response = await axios.post(`http://${ipAdrees}:5055/auth/refresh-token`, {
+       "refreshToken": refrashToken
+    });
+    console.log( "dataaaa" , response.data);
+   setToken(response.data)
+    
+  } catch (error) {
+    console.error(error);
+    
+  }
+};
