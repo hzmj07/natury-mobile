@@ -3,7 +3,16 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 import {globelError} from "./globelError"
 const ipAdrees = "192.168.1.118";
 
-
+export const deleteUser = async (userId , logOuth) => {
+  try {
+    await axios.post(`http://${ipAdrees}:5055/auth/deleteAccount`, {
+      id : userId 
+    });
+    console.log("Kullanıcı silindi!");
+    logOuth();
+  } catch (error) {
+    globelError(e);  }
+};
 
 export const UserLogin = async (email, password, loginContext) => {
   console.log(email);

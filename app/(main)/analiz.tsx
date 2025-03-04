@@ -7,8 +7,24 @@ import { useAuth } from "../../context/Authcontext"; // AuthContext'i içe aktar
 const Home = () => {
   const backgroundColor = useThemeColor({ light: "white", dark: "#1E1E1E" });
   const { userData } = useAuth();
-  console.log( "analiz page" , userData);
-  
+  userData.weeks && console.log("week content" , userData.weeks)
+ ;
+
+
+  function getYearWeek(isoDate) {
+    const date = new Date(isoDate); // UTC formatından Date objesine çevir
+    
+    // Haftanın ilk gününü (Pazartesi) belirleyerek UTC'ye çevir
+    const firstDayOfYear = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    
+    // Geçen gün sayısını hesapla
+    const pastDays = Math.floor((date - firstDayOfYear) / (1000 * 60 * 60 * 24));
+    
+    // Haftayı hesapla (1 Ocak = 1. hafta)
+    const weekNumber = Math.ceil((pastDays + firstDayOfYear.getUTCDay() + 1) / 7);
+
+    return `${date.getUTCFullYear()}-${String(weekNumber).padStart(2, "0")}`;
+}
    // Auth verilerine eriş
  
   return (
@@ -24,12 +40,20 @@ const Home = () => {
 
       {/* Chart Container */}
       <View className="flex-1 items-center pt-6 ">
+        {userData.weeks.length > 0 && <ScrollView horizontal={true} contentContainerStyle={{flexGrow:1 , height:480, paddingLeft:20 , paddingRight:20 , flexDirection: 'row-reverse'}} >
+    { 
+      userData.weeks.map(
+        (week , index)=>(
+
+          <View className='pl-2' key={index} >
+
+    <Text className="color-primre font-bold w-5/6 text-3xl ml-6" >{getYearWeek(week.start)}</Text>
           <LineChart
             data={{
-              labels: ['pzt', 'sal', 'çar', 'per', 'cum', 'cmt' , 'pzr'],
+              labels: week.data.map((lablele)=>lablele.day ),
               datasets: [
                 {
-                  data: [0, 20 , 30 , 20, 50 , 0 ,70 ],
+                  data:  week.data.map((value)=>value.value ),
                   color: (opacity = 1) => `rgba(0, 166, 39, ${opacity})`, 
                   strokeWidth: 2,
                 },
@@ -52,9 +76,15 @@ const Home = () => {
               },
             }}
             bezier
-            style={{ marginVertical: 8, borderRadius: 12, borderWidth:1 , borderColor:"#00A627"}}
+            style={{ marginVertical: 8, borderRadius: 16, borderWidth:1 , borderColor:"#00A627"}}
           />
 
+    </View>
+        )
+      )
+    }
+    </ScrollView>}
+  
 
             <ScrollView contentContainerStyle={{alignItems:"center" , justifyContent:"center"}} className='h-full w-full   pt-11 '  >
               <View  style={{backgroundColor}} className=' w-5/6 h-20 border border-primre rounded-2xl flex-row items-center justify-start pl-7 pr-7 mt-6 ' >

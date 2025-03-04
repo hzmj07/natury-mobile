@@ -56,7 +56,7 @@ const Home = () => {
   const [gram, setgram] = useState();
   const [trees, settrees] = useState(1);
   const [treeModal, settreeModal] = useState(false);
-  const { token, refreshUserData } = useAuth();
+  const { token, refreshUserData , user} = useAuth();
 
   const addTrees = async () => {
     console.log("addTree working");
@@ -134,8 +134,8 @@ const Home = () => {
       </View>
       {/* Main Content */}
       <View className="w-full flex-1 pt-12 justify-center">
-        <Text className="color-primre text-3xl pl-10 font-bold w-4/6">
-          Merhaba, bugün doğayı korumak için ne yapacaksın?
+        <Text className="color-primre text-3xl pl-10 font-bold w-5/6">
+          Merhaba {user?.username} , bugün doğayı korumak için ne yapacaksın?
         </Text>
 
         <View className="h-80 w-full flex-row items-center justify-center">

@@ -5,6 +5,7 @@ export const globelError = (e) => {
   
   
     const errorMessages = {
+      400 : "Kullanıcı Bulunamadı Hata oluştu!",
       401: "Email veya şifre yanlış lütfen tekrar deneyiniz.", 
       402 : "Kullanıcı adı veya email zaten kullanılıyor", 
       403: "Erişim reddedildi. Bu işlem için yetkiniz yok.",

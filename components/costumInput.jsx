@@ -16,7 +16,7 @@ const CustomTextInput = ({ placeholder, secureTextEntry , onChange , value , typ
     placeholderTextColor={color}
     value={value}
       className={`pl-8 text-2xl rounded-2xl border mt-10 ${
-        isFocused ? "border-primre" : "border-gray-300"
+        isFocused ? "border-primre" : "border-gray-500"
       }`}
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
