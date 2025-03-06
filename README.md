@@ -53,8 +53,9 @@ This command will move the starter code to the **app-example** directory and cre
 
 ## Conntect 
 
-Email : hazem2553hh@gmail.com
-[Portfolio and cv](https://devhzm.vercel.app/)
+- Email : hazem2553hh@gmail.com
+
+- [Portfolio and cv](https://devhzm.vercel.app/)
 
 To learn more about developing your project with Expo, look at the following resources:
 
